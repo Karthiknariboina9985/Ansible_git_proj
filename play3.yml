@@ -1,0 +1,10 @@
+---
+- name: Patch all EC2 instances
+  hosts: ec2_nodes
+  become: yes
+
+  tasks:
+    - name: Update all packages
+      yum:
+        name: "*"
+        state: latest
