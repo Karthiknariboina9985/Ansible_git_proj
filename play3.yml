@@ -1,6 +1,6 @@
 ---
 - name: Patch all EC2 instances
-  hosts: ec2_nodes
+  hosts: all
   become: yes
 
   tasks:
