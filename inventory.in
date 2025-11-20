@@ -1,0 +1,2 @@
+[nfsserver]
+172.31.71.6 ansible_user=jenkins
