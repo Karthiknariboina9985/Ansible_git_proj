@@ -1,0 +1,31 @@
+---
+- name: Configure NFS Server
+  hosts: nfsserver
+  become: yes
+
+  tasks:
+    - name: Install NFS packages
+      yum:
+        name: nfs-utils
+        state: present
+
+    - name: Create export directory
+      file:
+        path: /mnt/nfs_share
+        state: directory
+        mode: '0777'
+
+    - name: Configure exports
+      lineinfile:
+        path: /etc/exports
+        line: "/mnt/nfs_share 172.31.68.250/20,172.31.78.27/20(rw,sync,no_root_squash,no_all_squash)"
+        create: yes
+
+    - name: Restart NFS service
+      service:
+        name: nfs-server
+        state: restarted
+        enabled: yes
+
+    - name: Export the NFS share
+      command: exportfs -a
