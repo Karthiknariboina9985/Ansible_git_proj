@@ -1,6 +1,6 @@
 ---
 - name: Configure NFS Server
-  hosts: nfsserver
+  hosts: all
   become: yes
 
   vars:
