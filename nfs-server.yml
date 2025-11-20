@@ -3,6 +3,12 @@
   hosts: nfsserver
   become: yes
 
+  vars:
+    # Put your client IPs here
+    clients:
+      - "172.31.68.250/20"
+      - "172.31.78.27/20"
+
   tasks:
     - name: Install NFS packages
       yum:
@@ -15,11 +21,12 @@
         state: directory
         mode: '0777'
 
-    - name: Configure exports
+    - name: Configure exports for each client
       lineinfile:
         path: /etc/exports
-        line: "/mnt/nfs_share 172.31.68.250/20,172.31.78.27/20(rw,sync,no_root_squash,no_all_squash)"
-        create: yes
+        line: "/mnt/nfs_share {{ item }}(rw,sync,no_root_squash,no_all_squash)"
+      loop: "{{ clients }}"
+      create: yes
 
     - name: Restart NFS service
       service:
