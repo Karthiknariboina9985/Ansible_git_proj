@@ -1,0 +1,8 @@
+pipeline {
+    agent any
+    stages {
+        stage('Checkout'){ steps{ git 'https://github.com/Karthiknariboina9985/Ansible_git_proj.git' } }
+        stage('Install Ansible'){ steps{ sh 'sudo dnf install -y python3 python3-pip && pip3 install ansible' } }
+        stage('Deploy'){ steps{ sh 'ansible-playbook -i inventory/hosts plays/web.yml' } }
+    }
+}
